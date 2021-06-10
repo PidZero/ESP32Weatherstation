@@ -22,14 +22,15 @@ class weatherStation
     void pull_weatherdata();
     void pull_forecastdata();
 
+    // updateTime() calculates the local Time
     void updateTime();
     String year;
     String month;
     String day;
     String time;
 
-    String temperature;
-    String description;
+    String temperature{"100"};
+    String description{"100"};
 
     int min_int{ -1};
     int hour_int{ -1};
@@ -41,14 +42,25 @@ class weatherStation
     //https://arduinojson.org/v6/assistant/
 
   private:
+
+   
     String weatherUrl;
     String forecastUrl;
+
     // struct for the clock
     struct tm timeInfo;
+
     // setup of the clock
-    const char* ntpServer = "pool.ntp.org";
+    const char* ntpServer = "de.pool.ntp.org";
     const long  gmtOffset_sec = 3600;
     const int   daylightOffset_sec = 3600;
+    // Setup Timezone according to https://github.com/nayarsystems/posix_tz_db/blob/master/zones.csv
+    const char* timezone_setup = "CET-1CEST,M3.5.0/02,M10.5.0/03"; 
+
+
+
+
+
 };
 
 
@@ -77,6 +89,7 @@ inline
 void weatherStation::init() {
   //Initialize the clock and get the time
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+  setenv("TZ", timezone_setup, 1);  
   while (!getLocalTime(&timeInfo)) {
     delay(1500);
   }
@@ -118,10 +131,10 @@ void weatherStation::pull_weatherdata() {
     temperature.remove(ibuf - 1);
     description = String(weather_0_main);
 
-    // close connection
-    http.end();
+    
   }
-
+  // close connection
+  http.end();
 }
 
 

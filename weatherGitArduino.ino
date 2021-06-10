@@ -1,10 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////
 // (cc) 2020, Johannes Neidhart
-// This peace of software can be used to take an ESP32 in combination 
+// This piece of software can be used to take an ESP32 in combination 
 // with a 160 x 128 display and program it to print the current time and 
 // weather as well as the forecast for the next few hours.
 // The display should be compatible with the TFT_eSPI library.
 // An onlineweathermap account is needed to pull the forecast data.
+// Also have a look at weatherStation.h to check for correct settings of your
+// timezone.
 
 
 // Pinning:
